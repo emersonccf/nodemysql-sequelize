@@ -1,0 +1,27 @@
+{
+  "name": "nodemysql",
+  "version": "1.0.0",
+  "description": "Tutorial de node com mysql: https://www.luiztools.com.br/post/criando-uma-webapi-com-nodejs-e-mysql/",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Emerson Ferreira",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "1.20.0",
+    "express": "4.17.3",
+    "mysql2": "2.3.3",
+    "sequelize": "6.18.0"
+  },
+  "devDependencies": {
+    "nodemon": "2.0.15"
+  },
+  "engines": {
+    "node": ">=16.14.2",
+    "npm": ">=8.5.0"
+  }
+}

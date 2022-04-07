@@ -1,0 +1,21 @@
+Comando necessário para levantar a SGBD para a aplicação Node usando Docker
+
+# no Linux ou Mac (sistemas Unix)
+
+docker run \
+-dp 3306:3306 \
+--name mysql_node \
+-v datamysql57:/var/lib/mysql \
+-e MYSQL_ROOT_PASSWORD=1234 \ # use your own password
+-e MYSQL_DATABASE=nodemysql \
+mysql:5.7
+
+# no PowerShell do Windows
+
+docker run `
+-dp 3306:3306 `
+--name mysql_node `
+-v datamysql57:/var/lib/mysql ` 
+-e MYSQL_ROOT_PASSWORD=1234 ` # use your own password
+-e MYSQL_DATABASE=nodemysql `
+mysql:5.7
