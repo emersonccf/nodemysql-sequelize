@@ -1,4 +1,4 @@
-# CRUD utilizando Node com Mysql com ORM Sequelize
+# CRUD utilizando Node com Mysql com ORM Sequelize - ATENÇÃO ORIENTAÇÕES AINDA NÃO ESTÃO COMPLETAS E OK
 
 Fonte: https://www.luiztools.com.br/post/tutorial-de-crud-com-node-js-sequelize-e-mysql/
 

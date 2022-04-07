@@ -1,8 +1,10 @@
 const Sequelize = require('sequelize')
-const bd = require('./env')
-const sequelize = new Sequelize(bd.dataBDconnection.database, bd.dataBDconnection.user, bd.dataBDconnection.password, {
-    dialect: bd.dataBDconnection.dialect,
-    host: bd.dataBDconnection.host
-})
+const db = require('./env')
+const {
+    database,
+    user,
+    password
+} = db.databaseSettings
+const sequelize = new Sequelize(database, user, password, db.databaseConnection)
 
 module.exports = sequelize
