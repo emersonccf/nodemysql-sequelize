@@ -16,3 +16,5 @@ const Cliente = database.define('cliente', {
         type: Sequelize.STRING(11)
     }
 })
+
+module.exports = Cliente

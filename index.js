@@ -50,11 +50,11 @@ router.get('/', (req, res, next) => res.json({
 // })
 
 // register customer in database - C - CREATE (C-r-u-d)
-// router.post('/clientes', (req, res, next) => {
-//     const nome = req.body.nome.substring(0, 150)
-//     const cpf = req.body.cpf.substring(0, 11)
-//     execSQLQuery(`INSERT INTO clientes(nome, cpf) VALUE ('${nome}', '${cpf}')`, res)
-// })
+router.post('/clientes', (req, res, next) => {
+    const nome = req.body.nome.substring(0, 150)
+    const cpf = req.body.cpf.substring(0, 11)
+    registerCustomer(nome, cpf, res)
+})
 
 // // update data customer in database
 // router.patch('/clientes/:id', (req, res, next) => {
@@ -69,3 +69,19 @@ app.use('/', router)
 // launch sever in port default
 app.listen(portApp)
 console.log(`API funcionando: http://localhost:${portApp}`)
+
+async function registerCustomer(nome, cpf, res) {
+    const Cliente = require('./customer')
+
+    try {
+        const resultado = await Cliente.create({
+            nome: nome,
+            cpf: cpf
+        })
+        res.json(resultado)
+        console.log(resultado)
+    } catch (error) {
+        res.json(error)
+        console.log(error)
+    }
+}
