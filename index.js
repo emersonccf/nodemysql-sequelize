@@ -28,28 +28,15 @@ app.use(bodyParser.json())
 
 // defined router and routes
 const router = express.Router()
+// defined model for API
+const requireModel = require('./customer')
 
 // defined route root - GET
 router.get('/', (req, res, next) => res.json({
     message: 'Rota raiz funcionando: com Express e Sequelize!'
 }))
 
-// // defined route customers and search customer for id - GET 
-// sqlAllCustomers = 'SELECT id, nome, cpf FROM clientes'
-// router.get('/clientes/:id?', (req, res, next) => {
-//     const id = req.params.id
-//     let sqlQry = ''
-//     sqlQry = (id) ? sqlAllCustomers + ' WHERE id=' + parseInt(id) : sqlAllCustomers
-//     execSQLQuery(sqlQry, res)
-// })
-
-// // delete customer for id
-// router.delete('/clientes/:id', (req, res, next) => {
-//     const id = req.params.id
-//     execSQLQuery('DELETE FROM clientes WHERE id=' + parseInt(id), res)
-// })
-
-// register customer in database - C - CREATE (C-r-u-d)
+// register customer in database - C - CREATE (C-r-u-d) - POST
 router.post('/clientes', (req, res, next) => {
     const nome = req.body.nome.substring(0, 150)
     const cpf = req.body.cpf.substring(0, 11)
@@ -57,8 +44,13 @@ router.post('/clientes', (req, res, next) => {
         nome: nome,
         cpf: cpf
     }
-    const requireModel = require('./customer')
     registerModel(requireModel, atributes, res)
+})
+
+// defined route customers and search customer for id - R - READ (c-R-u-d) - GET
+router.get('/clientes/:id?', (req, res, next) => {
+    const id = parseInt(req.params.id) // validate data and cleaned data ???
+    findAllOrByPkModel(requireModel, id, res)
 })
 
 // // update data customer in database
@@ -69,6 +61,12 @@ router.post('/clientes', (req, res, next) => {
 //     execSQLQuery(`UPDATE clientes SET nome='${nome}', cpf='${cpf}' WHERE id=${id}`, res)
 // })
 
+// // delete customer for id
+// router.delete('/clientes/:id', (req, res, next) => {
+//     const id = req.params.id
+//     execSQLQuery('DELETE FROM clientes WHERE id=' + parseInt(id), res)
+// })
+
 app.use('/', router)
 
 // launch sever in port default
@@ -76,11 +74,29 @@ app.listen(portApp)
 console.log(`API funcionando: http://localhost:${portApp}`)
 
 // function insert register in model target in parameter requireModel with your object atributes.
-// Serves for insert register any model
+// Suit for insert register any model
 async function registerModel(requireModel, atributes, res) {
     const Model = requireModel
     try {
         const resultado = await Model.create(atributes)
+        res.json(resultado)
+        console.log(resultado) // can be remove
+    } catch (error) {
+        res.json(error)
+        console.log(error) // can be remove
+    }
+}
+
+// function for search register any model. Suit search any model
+async function findAllOrByPkModel(requireModel, pk, res) {
+    const Model = requireModel
+    let resultado = null
+    try {
+        if (pk)
+            resultado = await Model.findByPk(pk)
+        else
+            resultado = await Model.findAll()
+
         res.json(resultado)
         console.log(resultado) // can be remove
     } catch (error) {
