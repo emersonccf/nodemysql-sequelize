@@ -29,7 +29,7 @@ app.use(bodyParser.json())
 // defined router and routes
 const router = express.Router()
 // defined model for API
-const requireModel = require('./customer')
+const requireModelCustomer = require('./customer')
 
 // defined route root - GET
 router.get('/', (req, res, next) => res.json({
@@ -44,22 +44,26 @@ router.post('/clientes', (req, res, next) => {
         nome: nome,
         cpf: cpf
     }
-    registerModel(requireModel, atributes, res)
+    registerModel(requireModelCustomer, atributes, res)
 })
 
 // defined route customers and search customer for id - R - READ (c-R-u-d) - GET
 router.get('/clientes/:id?', (req, res, next) => {
     const id = parseInt(req.params.id) // validate data and cleaned data ???
-    findAllOrByPkModel(requireModel, id, res)
+    findAllOrByPkModel(requireModelCustomer, id, res)
 })
 
-// // update data customer in database
-// router.patch('/clientes/:id', (req, res, next) => {
-//     const id = parseInt(req.params.id)
-//     const nome = req.body.nome.substring(0, 150)
-//     const cpf = req.body.cpf.substring(0, 11)
-//     execSQLQuery(`UPDATE clientes SET nome='${nome}', cpf='${cpf}' WHERE id=${id}`, res)
-// })
+// update data customer in database - U - READ (c-r-U-d) - PATCH
+router.patch('/clientes/:id', (req, res, next) => {
+    const id = parseInt(req.params.id) // validate data and cleaned data ???
+    const nome = req.body.nome.substring(0, 150)
+    const cpf = req.body.cpf.substring(0, 11)
+    dataAtributes = {
+        nome: nome,
+        cpf: cpf
+    }
+    updateRegisterModel(requireModelCustomer, id, dataAtributes, res)
+})
 
 // // delete customer for id
 // router.delete('/clientes/:id', (req, res, next) => {
@@ -75,32 +79,64 @@ console.log(`API funcionando: http://localhost:${portApp}`)
 
 // function insert register in model target in parameter requireModel with your object atributes.
 // Suit for insert register any model
-async function registerModel(requireModel, atributes, res) {
-    const Model = requireModel
+async function registerModel(Model, atributes, res) {
+    let result = null
     try {
-        const resultado = await Model.create(atributes)
-        res.json(resultado)
-        console.log(resultado) // can be remove
+        result = await Model.create(atributes)
+        res.json(result)
+        console.log(result) // can be remove
     } catch (error) {
         res.json(error)
         console.log(error) // can be remove
     }
+    return result
 }
 
 // function for search register any model. Suit search any model
-async function findAllOrByPkModel(requireModel, pk, res) {
-    const Model = requireModel
-    let resultado = null
+async function findAllOrByPkModel(Model, pk, res) {
+    let result = null
     try {
         if (pk)
-            resultado = await Model.findByPk(pk)
+            result = await Model.findByPk(pk)
         else
-            resultado = await Model.findAll()
+            result = await Model.findAll()
 
-        res.json(resultado)
-        console.log(resultado) // can be remove
+        console.log(result)
+
+        res.json(result)
+        console.log(result) // can be remove
     } catch (error) {
         res.json(error)
         console.log(error) // can be remove
     }
+    return result
+}
+
+// function for search update of register any model. Suit update any model
+async function updateRegisterModel(Model, pk, dataAtributes, res) {
+    let result = null
+    let register = await Model.findByPk(pk)
+    try {
+        register = updateValuesAtributes(register, dataAtributes)
+        if (register)
+            result = await register.save()
+        else
+            result = {}
+        res.json(result)
+        console.log(result) // can be remove
+    } catch (error) {
+        res.json(error)
+        console.log(error) // can be remove
+    }
+    return result
+}
+
+// update values between objects with same properties
+function updateValuesAtributes(objectTarget, objectResource) {
+    // object Resource must have the same attribute key names as objectTarget
+    if (objectTarget)
+        for (const property in objectResource) {
+            objectTarget[property] = objectResource[property]
+        }
+    return objectTarget
 }
