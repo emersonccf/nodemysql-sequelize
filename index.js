@@ -53,7 +53,12 @@ router.get('/', (req, res, next) => res.json({
 router.post('/clientes', (req, res, next) => {
     const nome = req.body.nome.substring(0, 150)
     const cpf = req.body.cpf.substring(0, 11)
-    registerCustomer(nome, cpf, res)
+    const atributes = {
+        nome: nome,
+        cpf: cpf
+    }
+    const requireModel = require('./customer')
+    registerModel(requireModel, atributes, res)
 })
 
 // // update data customer in database
@@ -70,18 +75,16 @@ app.use('/', router)
 app.listen(portApp)
 console.log(`API funcionando: http://localhost:${portApp}`)
 
-async function registerCustomer(nome, cpf, res) {
-    const Cliente = require('./customer')
-
+// function insert register in model target in parameter requireModel with your object atributes.
+// Serves for insert register any model
+async function registerModel(requireModel, atributes, res) {
+    const Model = requireModel
     try {
-        const resultado = await Cliente.create({
-            nome: nome,
-            cpf: cpf
-        })
+        const resultado = await Model.create(atributes)
         res.json(resultado)
-        console.log(resultado)
+        console.log(resultado) // can be remove
     } catch (error) {
         res.json(error)
-        console.log(error)
+        console.log(error) // can be remove
     }
 }
