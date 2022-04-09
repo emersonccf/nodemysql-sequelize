@@ -1,6 +1,6 @@
 # CRUD utilizando Node com: Mysql e ORM Sequelize fornecendo uma API via Express
 
-Foi realizado com base no tutorial de Luiz Duarte "Tutorial de CRUD com Node.js, Sequelize e MySQL" e "Criando uma WebAPI com Node.js e MySQL", com as devidas adequações que julguei necessárias para trabalhar com API desacoplando as funções de criação, busca, atualização e deleção; isso propicia que elas possam ser utilizadas para qualquer Model com quantidade de atributos variados. Não é algo ideal mas garante uma ceta flexibilidade e generalização. Fiz adaptações que agregam valor aos tutoriais aqui citados. Fonte: https://www.luiztools.com.br/post/tutorial-de-crud-com-node-js-sequelize-e-mysql/ e https://www.luiztools.com.br/post/criando-uma-webapi-com-nodejs-e-mysql/
+Foi realizado com base no tutorial de Luiz Duarte "Tutorial de CRUD com Node.js, Sequelize e MySQL" e "Criando uma WebAPI com Node.js e MySQL", com as devidas adequações que julguei necessárias para trabalhar com API desacoplando as funções de criação, busca, atualização e deleção; isso propicia que elas possam ser utilizadas para qualquer Model com quantidade de atributos variados. Não é algo ideal mas garante uma certa flexibilidade e generalização. Fiz adaptações que agregam valor aos tutoriais aqui citados. Fonte: https://www.luiztools.com.br/post/tutorial-de-crud-com-node-js-sequelize-e-mysql/ e https://www.luiztools.com.br/post/criando-uma-webapi-com-nodejs-e-mysql/
 
 Presumo que você já tenha um ambiente NodeJS instalado em seu computador. Caso não tenha providencie baixar e instalar o arquivo de instalação correspondente ao seu Sistema Operacional. O Node utilizado neste projeto foi o 16.14.2 com o npm 8.5.0 que acompanha o mesmo. Assim como o Docker, também instalado e funcionando, para que possa criar o container do banco de dados MySQL.
 
@@ -9,7 +9,7 @@ Presumo que você já tenha um ambiente NodeJS instalado em seu computador. Caso
 1. Clone este repositório:
    `$ git clone https://github.com/emersonccf/nodemysql-sequelize.git`
 
-2. Execute, no diretório raiz do projeto o comando, o comando a seguir para instalar as dependências do projeto contidas no arquivo package.json, isto irá criar a pasta `node_modules` com todas as dependências:
+2. Execute, no diretório raiz do projeto, o comando a seguir para instalar as dependências do projeto contidas no arquivo package.json, isto irá criar a pasta `node_modules` com todas as dependências:
    `$ npm install`
 
 3. Carregue o container do SGBD, quando copiar o código abaixo descarte a observação para que não ocorra erros ao executá-lo:
@@ -42,7 +42,7 @@ ou
 
 4. Crie um arquivo chamado .env.js na pasta raiz deste projeto, nele você irá colocar a senha do usuário root do banco de dados
 
-   ATENÇÃO: conteúdo do arquivo .env.js . Este arquivo não deve ser versionado pois contem dados sensíveis da aplicação.
+   ATENÇÃO: conteúdo do arquivo .env.js . Este arquivo não deve ser versionado pois contém dados sensíveis da aplicação.
 
    ```
    const databaseSettings = {
