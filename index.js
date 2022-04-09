@@ -1,11 +1,11 @@
 // function self-execute - create table customers (clientes) case not exist
 (async () => {
-    const database = require('./db')
-    const Cliente = require('./customer')
+    const database = require('./db') /* ___ */
+    const Cliente = require('./customer') /* ??? */
 
     try {
-        const resultado = await database.sync()
-        console.log(resultado)
+        const resultado = await database.sync() /* ___ */
+        console.log(resultado) // can be remove
     } catch (error) {
         console.log(error)
     }
@@ -30,6 +30,9 @@ app.use(bodyParser.json())
 const router = express.Router()
 // defined model for API
 const requireModelCustomer = require('./customer')
+const {
+    type
+} = require('express/lib/response')
 
 // defined route root - GET
 router.get('/', (req, res, next) => res.json({
@@ -65,11 +68,11 @@ router.patch('/clientes/:id', (req, res, next) => {
     updateRegisterModel(requireModelCustomer, id, dataAtributes, res)
 })
 
-// // delete customer for id
-// router.delete('/clientes/:id', (req, res, next) => {
-//     const id = req.params.id
-//     execSQLQuery('DELETE FROM clientes WHERE id=' + parseInt(id), res)
-// })
+// delete customer for id - D - DELETE (c-r-u-D) - DELETE
+router.delete('/clientes/:id', (req, res, next) => {
+    const id = parseInt(req.params.id)
+    deleteByIdRegisterModel(requireModelCustomer, id, res)
+})
 
 app.use('/', router)
 
@@ -139,4 +142,31 @@ function updateValuesAtributes(objectTarget, objectResource) {
             objectTarget[property] = objectResource[property]
         }
     return objectTarget
+}
+
+// function for delete a register any model. Suit update any model
+async function deleteByIdRegisterModel(Model, pk, res) {
+    let result = null
+    // let register = await Model.findByPk(pk)
+    try {
+        // if (register)
+        //     result = await register.destroy()
+        // else
+        //     result = {}
+
+        if (Number.isInteger(pk))
+            result = await Model.destroy({
+                where: {
+                    id: pk
+                }
+            })
+        else
+            result = {}
+        res.json(result)
+        console.log(result) // can be remove
+    } catch (error) {
+        res.json(error)
+        console.log(error) // can be remove
+    }
+    return result
 }
