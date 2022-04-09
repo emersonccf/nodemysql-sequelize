@@ -1,6 +1,6 @@
 # CRUD utilizando Node com: Mysql e ORM Sequelize fornecendo uma API via Express
 
-Foi realizado com base no tutorial de Luiz Duarte "Tutorial de CRUD com Node.js, Sequelize e MySQL", com as devidas adequações que julguei necessárias para trabalhar com API desacoplando as funções de criação, busca, atualização e deleção; isso propicia que elas possam ser utilizadas para qualquer Model com quantidade de atributos variados. Não é algo ideal mas garante uma ceta flexibilidade e generalização. Fonte: https://www.luiztools.com.br/post/tutorial-de-crud-com-node-js-sequelize-e-mysql/
+Foi realizado com base no tutorial de Luiz Duarte "Tutorial de CRUD com Node.js, Sequelize e MySQL" e "Criando uma WebAPI com Node.js e MySQL", com as devidas adequações que julguei necessárias para trabalhar com API desacoplando as funções de criação, busca, atualização e deleção; isso propicia que elas possam ser utilizadas para qualquer Model com quantidade de atributos variados. Não é algo ideal mas garante uma ceta flexibilidade e generalização. Fiz adaptações que agregam valor aos tutoriais aqui citados. Fonte: https://www.luiztools.com.br/post/tutorial-de-crud-com-node-js-sequelize-e-mysql/ e https://www.luiztools.com.br/post/criando-uma-webapi-com-nodejs-e-mysql/
 
 Presumo que você já tenha um ambiente NodeJS instalado em seu computador. Caso não tenha providencie baixar e instalar o arquivo de instalação correspondente ao seu Sistema Operacional. O Node utilizado neste projeto foi o 16.14.2 com o npm 8.5.0 que acompanha o mesmo. Assim como o Docker, também instalado e funcionando, para que possa criar o container do banco de dados MySQL.
 
@@ -9,7 +9,7 @@ Presumo que você já tenha um ambiente NodeJS instalado em seu computador. Caso
 1. Clone este repositório:
    `$ git clone https://github.com/emersonccf/nodemysql-sequelize.git`
 
-2. Execute, no diretório raiz do projeto o comando, o comando a seguir para instalar as dependências do projeto contidas no arquivo package.json:
+2. Execute, no diretório raiz do projeto o comando, o comando a seguir para instalar as dependências do projeto contidas no arquivo package.json, isto irá criar a pasta `node_modules` com todas as dependências:
    `$ npm install`
 
 3. Carregue o container do SGBD, quando copiar o código abaixo descarte a observação para que não ocorra erros ao executá-lo:
@@ -74,17 +74,17 @@ ou
 
 `$ npm start`
 
-6. Por Fim, carregue alguns alguns registros para que possamos utilizar e testar nossa API. Para executar este passo certifique-se que o container do banco de dados está em execução (`$ docker ps -a`), verifique na lista que será exibida se mysql_node está em `Up..`, caso não execute `$ docker start mysql_node` ou repita o passo 3:
+6. Por Fim, carregue alguns alguns registros para que possamos utilizar e testar nossa API. Para executar este passo certifique-se que o container do banco de dados está em execução (`$ docker ps -a`), verifique na lista que será exibida se mysql_node está em `Up..`, caso não execute `$ docker start mysql_node` ou repita o passo 3; NÃO EXECUTE ESTE PASSO ANTES DO ANTERIOR, pois ao executa o passo 5 é criado o banco de dados automaticamente no MySQL. Quando executar o comando abaixo será solicitada a senha do banco de dados, forneça a senha correta para que o comando seja executado sem falhas:
    - Importar dados:
    ```
-      $ docker cp ./backup_nodemysql.sql mysql_node:/ && docker exec -it mysql_node bash -c 'mysql -u root -p1234 nodemysql < backup_nodemysql.sql'
+      $ docker cp ./backup_nodemysql.sql mysql_node:/ && docker exec -it mysql_node bash -c 'mysql -u root -p nodemysql < backup_nodemysql.sql'
    ```
    - Exportar dados, caso necessite fazer um backup dos dados ao final do trabalho:
    ```
-      $ docker exec -it mysql_node mysqldump -u root -p1234 nodemysql > backup_nodemysql.sql
+      $ docker exec -it mysql_node mysqldump -u root -p nodemysql > backup_nodemysql.sql
    ```
 
-Para manipulação da API pode ser utilizado o comando `curl` ou o aplicativo Postman, irei exemplificar aqui como fazer as requisições através através do comando `curl`:
+Para manipulação da API pode ser utilizado o comando `curl` ou o aplicativo Postman, irei exemplificar aqui como fazer as requisições através através do comando `curl`, deixe um terminal executando a aplicação `$ npm run dev` e em outro execute as instruções a seguir:
 
 1. GET na rota '/' da API:
    `$ curl -X GET http://localhost:3000/`
@@ -130,4 +130,4 @@ Para manipulação da API pode ser utilizado o comando `curl` ou o aplicativo Po
    - Deve retornar a seguinte resposta, um JSON contendo todos os dados do cliente já com as alterações efetivadas, demostrando que o registro sofreu mudanças. Se quiser conferir as alterações realizadas no cliente repita o passo 2.
      `{"id":2,"nome":"Maria Rita","cpf":"09876543210","createdAt":"2022-04-07T01:27:14.000Z","updatedAt":"2022-04-09T05:00:38.143Z"}`
 
-## Este é um breve e singela demostração de todo poder e recursos que o conjunto desta ferramentas podem produzir em conjunto.
+## Esta é uma breve e singela demostração de todo poder e recursos que estas ferramentas podem produzir em conjunto. Agora você pode utilizar este material para estudar em conjunto com os tutoriais aqui citados.
