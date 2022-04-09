@@ -147,13 +147,12 @@ function updateValuesAtributes(objectTarget, objectResource) {
 // function for delete a register any model. Suit update any model
 async function deleteByIdRegisterModel(Model, pk, res) {
     let result = null
-    // let register = await Model.findByPk(pk)
+    // let register = await Model.findByPk(pk) // other alternative
     try {
-        // if (register)
+        // if (register) // other alternative
         //     result = await register.destroy()
         // else
         //     result = {}
-
         if (Number.isInteger(pk))
             result = await Model.destroy({
                 where: {
